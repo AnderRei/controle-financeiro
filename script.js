@@ -561,15 +561,18 @@ function atualizarGraficoCategorias(gastos) {
     dados.forEach(([categoria, valor]) => {
         const percentual = valor / totalGeral;
         const anguloFinal = anguloInicial + percentual * Math.PI * 2;
+        const abertura = anguloFinal - anguloInicial;
+        const espacamento = Math.min(0.015, abertura / 2);
 
         contexto.beginPath();
         contexto.arc(
             120,
             120,
             82,
-            anguloInicial + 0.015,
-            anguloFinal - 0.015
+            anguloInicial + espacamento,
+            anguloFinal - espacamento
         );
+
         contexto.strokeStyle = cores[categoria] || '#718096';
         contexto.lineWidth = 25;
         contexto.lineCap = 'butt';

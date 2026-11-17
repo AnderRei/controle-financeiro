@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Gasto - Finanças Pessoais</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <header class="cabecalho">
+        <div class="conteiner">
+            <h1 class="titulo-principal">💰 Finanças Pessoais</h1>
+            <p class="subtitulo" id="subtitulo-tela">Cadastro de Novo Gasto</p>
+        </div>
+    </header>
+
+    <main class="conteiner">
+        <section class="secao-formulario">
+            <div class="cabecalho-formulario">
+                <h2 class="titulo-secao" id="titulo-formulario">Registrar Nova Despesa</h2>
+                <p class="descricao-secao">Preencha os campos abaixo para salvar o gasto no controle financeiro.</p>
+            </div>
+
+            <form id="formulario-gasto" class="formulario-gasto" onsubmit="salvarGasto(event)">
+                <input type="hidden" id="id-gasto" name="id-gasto" value="">
+                
+                <div class="grupo-campo">
+                    <label for="descricao" class="rotulo-campo">Descrição do Gasto:</label>
+                    <input 
+                        type="text" 
+                        id="descricao" 
+                        name="descricao" 
+                        class="campo-texto" 
+                        placeholder="Ex: Almoço, Passagem, Supermercado..." 
+                        required
+                    >
+                </div>
+
+                <div class="grupo-campo">
+                    <label for="valor" class="rotulo-campo">Valor (R$):</label>
+                    <input 
+                        type="number" 
+                        id="valor" 
+                        name="valor" 
+                        class="campo-numero" 
+                        step="0.01" 
+                        min="0.01" 
+                        placeholder="0,00" 
+                        required
+                    >
+                </div>
+
+                <div class="grupo-campo">
+                    <label for="categoria" class="rotulo-campo">Categoria:</label>
+                    <select id="categoria" name="categoria" class="campo-selecao" required>
+                        <option value="" disabled selected>Selecione uma categoria...</option>
+                        <option value="alimentacao">Alimentação</option>
+                        <option value="transporte">Transporte</option>
+                        <option value="lazer">Lazer</option>
+                        <option value="compras">Compras</option>
+                        <option value="contas">Contas e Moradia</option>
+                        <option value="saude">Saúde</option>
+                        <option value="outros">Outros</option>
+                    </select>
+                </div>
+
+                <div class="grupo-campo">
+                    <label for="data" class="rotulo-campo">Data do Gasto:</label>
+                    <input 
+                        type="date" 
+                        id="data" 
+                        name="data" 
+                        class="campo-data" 
+                        required
+                    >
+                </div>
+
+                <div class="grupo-botoes-formulario">
+                    <button 
+                        type="submit" 
+                        id="botao-salvar" 
+                        class="botao botao-sucesso"
+                    >
+                        💾 Salvar Gasto
+                    </button>
+
+                    <a href="index.html" class="botao botao-secundario" id="botao-cancelar">
+                        ✖ Cancelar e Voltar
+                    </a>
+                </div>
+
+            </form>
+        </section>
+    </main>
+
+    <footer class="rodape">
+        <div class="conteiner">
+            <p>Projeto Integrador - Sistema de Finanças Pessoais &copy; 2026</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle Financeiro Pessoal</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <header class="cabecalho">
+        <div class="conteiner">
+            <h1 class="titulo-principal">💰 Finanças Pessoais</h1>
+            <p class="subtitulo">Controle diário e semanal de gastos</p>
+        </div>
+    </header>
+
+    <main class="conteiner">
+        <section class="secao-resumo">
+            <div class="cartao-resumo cartao-hoje">
+                <span class="rotulo-cartao">Total de Hoje</span>
+                <span class="valor-cartao" id="total-hoje">R$ 0,00</span>
+            </div>
+
+            <div class="cartao-resumo cartao-semana">
+                <span class="rotulo-cartao">Total da Semana</span>
+                <span class="valor-cartao" id="total-semana">R$ 0,00</span>
+            </div>
+
+            <div class="cartao-resumo cartao-geral">
+                <span class="rotulo-cartao">Total Geral</span>
+                <span class="valor-cartao" id="total-geral">R$ 0,00</span>
+            </div>
+        </section>
+
+        <section class="barra-acoes">
+            <div class="barra-pesquisa">
+                <input 
+                    type="text" 
+                    id="campo-pesquisa" 
+                    class="campo-pesquisa" 
+                    placeholder="Pesquisar por descrição ou categoria..."
+                    onkeyup="pesquisarGastos()"
+                >
+                <button 
+                    type="button" 
+                    id="botao-pesquisar" 
+                    class="botao botao-pesquisar"
+                    onclick="pesquisarGastos()"
+                >
+                    🔍 Pesquisar
+                </button>
+            </div>
+
+
+            <div class="filtro-periodo">
+                <div class="campo-filtro">
+                    <label for="filtro-data-inicial">De:</label>
+                    <input
+                        type="date"
+                        id="filtro-data-inicial"
+                        class="campo-data-filtro"
+                    >
+                </div>
+
+                <div class="campo-filtro">
+                    <label for="filtro-data-final">Até:</label>
+                    <input
+                        type="date"
+                        id="filtro-data-final"
+                        class="campo-data-filtro"
+                    >
+                </div>
+
+                <button
+                    type="button"
+                    class="botao botao-filtrar"
+                    onclick="filtrarPeriodo()"
+                >
+                    Filtrar
+                </button>
+
+                <button
+                    type="button"
+                    class="botao botao-limpar-filtro"
+                    onclick="limparFiltroPeriodo()"
+                >
+                    Limpar
+                </button>
+            </div>
+
+            <div class="grupo-botoes">
+                <a href="cadastrar.html" class="botao botao-primario" id="botao-novo-gasto">
+                    ➕ Novo Gasto
+                </a>
+                <button 
+                    type="button" 
+                    id="botao-pdf" 
+                    class="botao botao-pdf"
+                    onclick="gerarRelatorioPDF()"
+                >
+                    📄 Gerar Relatório em PDF
+                </button>
+            </div>
+        </section>
+
+        <section class="secao-grafico">
+            <div class="cabecalho-grafico">
+                <h2 class="titulo-secao">Despesas por Categoria</h2>
+                <p class="descricao-secao">Veja como seus gastos estão distribuídos.</p>
+            </div>
+
+            <div class="conteudo-grafico">
+                <div class="area-canvas">
+                    <canvas id="grafico-categorias" width="240" height="240"></canvas>
+                </div>
+
+                <div class="legenda-grafico" id="legenda-grafico"></div>
+            </div>
+        </section>
+
+        <section class="secao-tabela">
+            <h2 class="titulo-secao">Gastos Registrados</h2>
+
+            <div class="tabela-responsiva">
+                <table class="tabela-gastos" id="tabela-gastos">
+                    <thead class="cabecalho-tabela">
+                        <tr>
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                            <th>Valor</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody class="corpo-tabela" id="corpo-tabela-gastos">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mensagem-vazia" id="mensagem-vazia">
+                <p>Nenhum gasto registrado até o momento.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="rodape">
+        <div class="conteiner">
+            <p>Projeto Integrador - Sistema de Finanças Pessoais &copy; 2026</p>
+        </div>
+    </footer>
+
+    <script src="libs/jspdf.umd.min.js"></script>
+    <script src="libs/jspdf.plugin.autotable.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

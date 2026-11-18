@@ -9,6 +9,13 @@ function salvarGastos(gastos) {
     localStorage.setItem(CHAVE_LOCALSTORAGE, JSON.stringify(gastos));
 }
 
+function obterDataLocalISO(dataObj = new Date()) {
+    const ano = dataObj.getFullYear();
+    const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+    const dia = String(dataObj.getDate()).padStart(2, '0');
+    return `${ano}-${mes}-${dia}`;
+}
+
 function formatarMoeda(valor) {
     return Number(valor).toLocaleString('pt-BR', {
         style: 'currency',
@@ -90,8 +97,7 @@ function carregarGastoParaEdicao() {
     if (!id) {
         const campoData = document.getElementById('data');
         if (campoData && !campoData.value) {
-            const hoje = new Date().toISOString().split('T')[0];
-            campoData.value = hoje;
+            campoData.value = obterDataLocalISO();
         }
         return;
     }
@@ -119,7 +125,6 @@ function carregarGastoParaEdicao() {
     if (subtituloTela) subtituloTela.textContent = 'Alteração de Registro';
     if (botaoSalvar) botaoSalvar.textContent = '💾 Atualizar Gasto';
 }
-
 
 function obterGastosDoPeriodo() {
     const dataInicial = document.getElementById('filtro-data-inicial')?.value || '';
@@ -182,7 +187,7 @@ function listarGastos(termoFiltro = '') {
 
             linha.innerHTML = `
                 <td class="celula-data">${formatarData(gasto.data)}</td>
-                <td class="celula-descricao">${gasto.descricao}</td>
+                <td class="celula-descricao"></td>
                 <td class="celula-categoria">
                     <span class="etiqueta etiqueta-${gasto.categoria}">${formatarCategoria(gasto.categoria)}</span>
                 </td>
@@ -193,13 +198,12 @@ function listarGastos(termoFiltro = '') {
                 </td>
             `;
 
+            linha.querySelector('.celula-descricao').textContent = gasto.descricao;
             corpoTabela.appendChild(linha);
         });
     }
 
     calcularTotais(gastos);
-
-    atualizarGraficoCategorias(gastos);
 }
 
 function calcularTotais(gastos = obterGastosDoPeriodo()) {
@@ -209,21 +213,11 @@ function calcularTotais(gastos = obterGastosDoPeriodo()) {
 
     if (!elementoHoje && !elementoSemana && !elementoGeral) return;
 
-    const hoje = new Date();
-    const anoHoje = hoje.getFullYear();
-    const mesHoje = String(hoje.getMonth() + 1).padStart(2, '0');
-    const diaHoje = String(hoje.getDate()).padStart(2, '0');
-    const hojeStr = `${anoHoje}-${mesHoje}-${diaHoje}`;
+    const hojeStr = obterDataLocalISO();
 
     const dataLimiteSemana = new Date();
     dataLimiteSemana.setDate(dataLimiteSemana.getDate() - 7);
-    dataLimiteSemana.setHours(0, 0, 0, 0);
-
-    const limiteSemanaStr = [
-        dataLimiteSemana.getFullYear(),
-        String(dataLimiteSemana.getMonth() + 1).padStart(2, '0'),
-        String(dataLimiteSemana.getDate()).padStart(2, '0')
-    ].join('-');
+    const limiteSemanaStr = obterDataLocalISO(dataLimiteSemana);
 
     let totalHoje = 0;
     let totalSemana = 0;
@@ -260,7 +254,6 @@ function calcularTotais(gastos = obterGastosDoPeriodo()) {
     atualizarGraficoCategorias(gastos);
 }
 
-
 function pesquisarGastos() {
     const campo = document.getElementById('campo-pesquisa');
     const termo = campo ? campo.value.trim() : '';
@@ -287,10 +280,7 @@ function limparFiltroPeriodo() {
     pesquisarGastos();
 }
 
-
-
 function gerarRelatorioPDF() {
-
     // Verifica se as bibliotecas foram carregadas
     if (!window.jspdf || !window.jspdf.jsPDF) {
         alert('Erro ao carregar a biblioteca de geração de PDF.');
@@ -502,7 +492,6 @@ function gerarRelatorioPDF() {
     doc.save(nomeArquivo);
 }
 
-
 function atualizarGraficoCategorias(gastos) {
     const canvas = document.getElementById('grafico-categorias');
     const legenda = document.getElementById('legenda-grafico');
@@ -623,7 +612,6 @@ function atualizarGraficoCategorias(gastos) {
     contexto.fillText(formatarMoeda(totalGeral), 120, 132);
 }
 
-
 function editarGasto(id) {
     window.location.href = `cadastrar.html?id=${id}`;
 }
@@ -647,7 +635,6 @@ function excluirGasto(id) {
 
     pesquisarGastos();
 }
-
 
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('corpo-tabela-gastos')) {
